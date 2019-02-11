@@ -90,16 +90,10 @@ public class MainActivity extends AppCompatActivity  implements AsyncResponse {
 
         try {
 
-            //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-            //mFusedLocationClient.getLastLocation();
             LocationListener mLocListener = new MyLocationListener();
-            LocationListener mLocListener2 = new MyLocationListener();
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocListener);
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocListener);
 
-            //mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,mLocationListener,Looper.getMainLooper());
-
-            //location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Location gps_loc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Location net_loc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             boolean gpsEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -117,7 +111,6 @@ public class MainActivity extends AppCompatActivity  implements AsyncResponse {
                 latitude=location.getLatitude(); // N
             }
             text.setText("Lon E: " + Double.toString(longitude) + "\nLat N: " + Double.toString(latitude)+"\n"+l);
-            //Toast.makeText(this, "Posizione aggiornata", Toast.LENGTH_SHORT).show();
         } catch (SecurityException e){
 
             text.setText("Errore");
@@ -178,8 +171,7 @@ public class MainActivity extends AppCompatActivity  implements AsyncResponse {
                     path = saveImage(bitmap);
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageview.setImageBitmap(bitmap);
-                    //mostro path per vedere se va bene
-                    text.setText(path);
+
                     btnUpload.setVisibility(View.VISIBLE);
                     btn.setText("Modifica inserimento");
                 } catch (IOException e) {
@@ -194,8 +186,7 @@ public class MainActivity extends AppCompatActivity  implements AsyncResponse {
             btnUpload.setVisibility(View.VISIBLE);
             btn.setText("Modifica inserimento");
             path=saveImage(thumbnail);
-            //mostro il path per vedere se è giusto
-            text.setText(path);
+
             Toast.makeText(MainActivity.this, "Image Saved!"+path, Toast.LENGTH_SHORT).show();
         }
     }
@@ -299,6 +290,7 @@ public class MainActivity extends AppCompatActivity  implements AsyncResponse {
     };
 
      public void processFinish(String output){
+         text.setText(output);
          Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();    }
 
     public void map(View view) {
@@ -315,7 +307,7 @@ public class MainActivity extends AppCompatActivity  implements AsyncResponse {
                     "New Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+
         }
         public void onProviderDisabled(String arg0) {
 
